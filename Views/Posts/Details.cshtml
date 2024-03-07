@@ -1,0 +1,221 @@
+﻿@model SocialMediaWisLam.Controllers.ApiPostsController.ViewModelPost
+@using System.Security.Claims;
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="container mx-auto">
+    <div class="flex flex-col justify-center justify-items-center w-full bg-base-200 rounded-lg shadow-md mb-4">
+        <div class="flex justify-items-center mx-3 mt-3 mb-1.5">
+            <img class="w-10 h-10 rounded-full mr-3" src="https://th.bing.com/th/id/OIP.pqzQpx8Wg5fEHznAKKY6ugHaJ4?rs=1&pid=ImgDetMain" alt="Avatar" />
+            <div class="flex flex-col justify-start justify-items-center">
+                <div class="font-semibold">Ten Nguoi A</div>
+                <div class="font-light text-sm">@Html.DisplayFor(model => model.UpdatedDate)</div>
+            </div>
+        </div>
+        <hr />
+        <div class="mb-3 mt-1.5 mx-3">
+            @Html.DisplayFor(model => model.Description)
+        </div>
+        <div class="mx-2 mb-1.5 bg-base-300 rounded-lg">
+            <div class="flex flex-col mb-3">
+                @if (Model.Photos.FirstOrDefault() != null)
+                {
+                    <button class="btn h-96 flex-row mb-3">
+                        <img class="object-cover w-full h-96 rounded-lg" src="/@Model.Photos.FirstOrDefault().Url" alt="post.png" />
+                    </button>
+                } else if (Model.Videos.FirstOrDefault() != null) {
+                    <video class="object-cover w-full h-96 rounded-lg" controls>
+                        <source src="/@Model.Videos.FirstOrDefault().Url" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                }
+                <button class="btn flex-row" onclick="my_modal_2.showModal()">
+                    <img class="object-cover rounded-lg" src="~/source/img/sign.png" alt="plus.png" />
+                </button>
+            </div>
+        </div>
+        <hr />
+        <div class="mt-1.5 mb-1.5 flex justify-around justify-items-center">
+            @Html.DisplayFor(model => model.NumOfLike) Like
+        </div>
+        <div class="mt-1.5 mb-1.5 flex justify-around justify-items-center">
+            <button id="btn-like" class="btn btn-circle btn-outline">
+                @if (Model.IsLike)
+                {
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-error" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12
+                                20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                } else {
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12
+                                20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                }
+            </button>
+            <button id="btn-msg" class="btn">
+                <img width="24" height="24" alt="messenger.png" src="~/source/img/messenger.png" />
+                <div class="font-light">Message</div>
+            </button>
+            <button id="btn-share" class="btn">
+                <img width="24" height="24" alt="messenger.png" src="~/source/img/send.png" />
+                <div class="font-light">Save</div>
+            </button>
+        </div>
+    </div>
+</div>
+
+<dialog id="my_modal_3" class="modal w-ful">
+    <div class="modal-box min-h-96">
+        <div class="flex justify-between justify-items-center mb-3">
+            <h3 class="font-bold text-lg">Chat</h3>
+
+            <a id="detail-user" href="" class="link">Detail User</a>
+
+            <div class="modal-action m-0">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+        <div id="detail-chat" class="flex flex-col">
+
+            <label class="input input-bordered flex items-center gap-2 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
+                <input id="userInput" type="text" class="grow" placeholder="Username" disabled="true" />
+            </label>
+
+            <ul id="messagesList" class="mb-4 h-96" style="overflow: auto">
+                <div class="chat chat-start">
+                    <div class="chat-bubble">It's over Anakin, <br />I have the high ground.</div>
+                </div>
+                <div class="chat chat-end">
+                    <div class="chat-bubble">You underestimate my power!</div>
+                </div>
+            </ul>
+            <form id="send-chat-form">
+                <input id="messageInput" type="text" placeholder="Type here" class="input input-ghost w-full mb-4" />
+                <input class="btn mb-4" type="submit" id="sendButton" value="Send Message" />
+            </form>
+        </div>
+    </div>
+</dialog>
+
+
+<dialog id="my_modal_2" class="modal">
+    <div class="modal-box min-w-fit max-w-full w-9/12">
+        <div class="flex justify-between justify-items-center mb-3">
+            <h3 class="font-bold text-lg">Detail Media</h3>
+            <div class="modal-action m-0">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+        <div id="detail-img" class="max-w-full w-full">
+            @foreach (var item in Model.Photos)
+            {
+                <img class="object-cover w-full max-w-fit max-h-fit rounded-lg mb-3 mx-auto" src="/@item.Url" alt="post.png" />
+            }
+            @foreach (var item in Model.Videos)
+            {
+                <video class="object-cover w-full h-96 rounded-lg mb-3" controls>
+                    <source src="/@item.Url" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            }
+            @* <img class="object-cover w-full max-w-fit max-h-fit rounded-lg mb-3 mx-auto" src="https://assets.digitalocean.com/articles/alligator/css/object-fit/example-object-fit.jpg" alt="post.png" />
+            <img class="object-cover w-full max-w-fit max-h-fit rounded-lg mb-3 mx-auto" src="https://assets.digitalocean.com/articles/alligator/css/object-fit/example-object-fit.jpg" alt="post.png" />
+            <img class="object-cover w-full max-w-fit max-h-fit rounded-lg mb-3 mx-auto" src="https://assets.digitalocean.com/articles/alligator/css/object-fit/example-object-fit.jpg" alt="post.png" />
+            <video class="object-cover w-full h-96 rounded-lg mb-3" controls>
+                <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> *@
+        </div>
+    </div>
+</dialog>
+
+@section Scripts {
+    <script src="~/js/signalr/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+
+    <script>
+        const btnLike = document.getElementById("btn-like");
+        const btnMsg = document.getElementById("btn-msg");
+        const btnShare = document.getElementById("btn-msg");
+        const PostId = @Model.Id;
+        const UserId = "@User.FindFirstValue(ClaimTypes.NameIdentifier)";
+
+        btnMsg.setAttribute("onclick", "my_modal_3.showModal()");
+        btnMsg.addEventListener("click", () => {
+            const userInput = document.getElementById("userInput");
+            const userId = "@Model.ProfileOwner.Id";
+
+            userInput.value = userId;
+
+            fetch("/GetChats?userId=" + userId)
+                .then(response => response.json())
+                .then(arrUnknown1 => {
+                    const messagesList = document.getElementById("messagesList");
+                    const url = window.location.href.split("/")[2];
+                    const messageInput = document.getElementById("messageInput");
+                    messagesList.innerHTML = '';
+                    arrUnknown1.forEach(item1 => {
+                        const divChat = document.createElement("li");
+                        const divBubble = document.createElement("div");
+                        
+
+                        if (item1.userId2 == UserId) {
+                            divChat.classList.add("chat", "chat-end");
+                        } else {
+                            divChat.classList.add("chat", "chat-start");
+                        }
+                        divBubble.classList.add("chat-bubble");
+                        messagesList.appendChild(divChat);
+                        divChat.appendChild(divBubble);
+
+                        
+                        divBubble.innerText = item1.message;
+                    })
+                    messageInput.value = "" + url + "/Posts/Details/" + PostId;
+                });
+        });
+
+        btnLike.addEventListener("click", () => {
+            const emotionData = {
+                userId: UserId,
+                postId: PostId,
+                emoji: 1
+            };
+            const jsonData = JSON.stringify(emotionData);
+            const urlPost = "/api/ApiPosts/Emotion";
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            };
+
+            fetch(urlPost, options)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(emotion => {
+                    if (emotion.emoji == -1) {
+                        btnLike.firstElementChild.classList.remove("stroke-error");
+                    } else {
+                        btnLike.firstElementChild.classList.add("stroke-error");
+                    }
+                });
+        });
+        
+    </script>
+}

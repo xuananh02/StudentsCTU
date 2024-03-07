@@ -1,0 +1,289 @@
+﻿
+@{
+    ViewData["Title"] = "Saved - Post";
+}
+@using System.Security.Claims;
+@model List<SocialMediaWisLam.Controllers.SavedPostsController.PostIQueryable>
+
+<div class="container mx-auto">
+    @foreach (var post in Model)
+    {
+        <div class="container mx-auto">
+            <div class="flex flex-col justify-center justify-items-center w-full bg-base-200 rounded-lg shadow-md mb-4">
+                <div class="flex justify-items-center mx-3 mt-3 mb-1.5">
+                    <img class="w-10 h-10 rounded-full mr-3" src="https://th.bing.com/th/id/OIP.pqzQpx8Wg5fEHznAKKY6ugHaJ4?rs=1&pid=ImgDetMain" alt="Avatar" />
+                    <div class="flex flex-col justify-start justify-items-center">
+                        <div class="font-semibold">@post.Profile.FirstName @post.Profile.LastName</div>
+                        <div class="font-light text-sm">@post.UpdatedDate</div>
+                    </div>
+                </div>
+                <hr />
+                <div class="mb-3 mt-1.5 mx-3">
+                    @post.Description
+                </div>
+                <div class="mx-2 mb-1.5 bg-base-300 rounded-lg">
+                    <div class="flex flex-col mb-3">
+                        @if (post.Photos.FirstOrDefault() != null)
+                        {
+                            <button class="btn h-96 flex-row mb-3">
+                                <img class="object-cover w-full h-96 rounded-lg" src="/@post.Photos.FirstOrDefault().Url" alt="post.png" />
+                            </button>
+                        }
+                        else if (post.Videos.FirstOrDefault() != null)
+                        {
+                            <video class="object-cover w-full h-96 rounded-lg" controls>
+                                <source src="/@post.Videos.FirstOrDefault().Url" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        }
+
+
+                        <button id="@post.Id-btn" class="btn flex-row" onclick="my_modal_2.showModal()">
+                            <img class="object-cover rounded-lg" src="~/source/img/sign.png" alt="plus.png" />
+                        </button>
+                        
+                        <script>
+                            document.getElementById('@post.Id-btn').addEventListener("click", () => {
+                                var photos = [];
+                                var videos = [];
+                                const imgDetailContainer = document.getElementById("detail-img");
+                                imgDetailContainer.innerHTML = '';
+
+                                @foreach (var item in post.Photos)
+                                {
+                                    @Html.Raw("photos.push({url: \"/"+ item.Url.Replace("\\", "/") + "\"});");
+                                }
+
+                                @foreach (var item in post.Videos)
+                                {
+                                    @Html.Raw("videos.push({url: \"/" + item.Url.Replace("\\", "/") + "\"});");
+                                }
+
+
+                                photos.forEach((item) => {
+                                    const img = document.createElement("img");
+                                    img.classList.add("object-cover", "w-full", "max-w-fit", "max-h-fit", "rounded-lg", "mb-3", "mx-auto");
+                                    img.src = item.url;
+                                    imgDetailContainer.appendChild(img);
+                                });
+
+                                videos.forEach((item) => {
+                                    const video = document.createElement("video");
+                                    const source = document.createElement("source");
+                                    video.classList.add("object-cover", "w-full", "max-w-fit", "max-h-fit", "rounded-lg", "mb-3", "mx-auto");
+                                    video.setAttribute("controls", "");
+                                    source.src = item.url;
+                                    source.setAttribute("type", "video/mp4");
+                                    video.appendChild(source);
+                                    imgDetailContainer.appendChild(video);
+                                });
+
+                            });
+                        </script>
+                    </div>
+                </div>
+                <hr />
+                <div class="mt-1.5 mb-1.5 flex justify-around justify-items-center">
+                     @post.NumOfLike Like
+                </div>
+                <div class="mt-1.5 mb-1.5 flex justify-around justify-items-center">
+                    <button class="btn btn-circle btn-outline" onclick="like(this, @post.Id);">
+                        @if (post.IsLike)
+                        {
+                            <svg id="like-@post.Id" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-error" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12
+                                20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                        }
+                        else
+                        {
+                            <svg id="like-@post.Id" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12
+                                20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                        }
+                    </button>
+
+                    <button id="msg-@post.Id" class="btn" onclick="my_modal_3.showModal()" >
+                        <img width="24" height="24" alt="messenger.png" src="~/source/img/messenger.png" />
+                        <div class="font-light">Message</div>
+                    </button>
+                    <script>
+                        document.getElementById("msg-@post.Id").addEventListener("click", () => {
+                            Msg("@post.Profile.Id", @post.Id);
+                        });
+                    </script>
+                    
+
+                    <button  class="btn" onclick="Saved(postId=@post.Id)">
+                        <img width="24" height="24" alt="messenger.png" src="~/source/img/send.png" />
+                        <div class="font-light">Save</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<dialog id="my_modal_3" class="modal w-ful">
+    <div class="modal-box min-h-96">
+        <div class="flex justify-between justify-items-center mb-3">
+            <h3 class="font-bold text-lg">Chat</h3>
+
+            <a id="detail-user" href="" class="link">Detail User</a>
+
+            <div class="modal-action m-0">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+        <div id="detail-chat" class="flex flex-col">
+
+            <label class="input input-bordered flex items-center gap-2 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
+                <input id="userInput" type="text" class="grow" placeholder="Username" disabled="true" />
+            </label>
+
+            <ul id="messagesList" class="mb-4 h-96" style="overflow: auto">
+                <div class="chat chat-start">
+                    <div class="chat-bubble">It's over Anakin, <br />I have the high ground.</div>
+                </div>
+                <div class="chat chat-end">
+                    <div class="chat-bubble">You underestimate my power!</div>
+                </div>
+            </ul>
+            <form id="send-chat-form">
+                <input id="messageInput" type="text" placeholder="Type here" class="input input-ghost w-full mb-4" />
+                <input class="btn mb-4" type="submit" id="sendButton" value="Send Message" />
+            </form>
+        </div>
+    </div>
+</dialog>
+
+
+<dialog id="my_modal_2" class="modal">
+    <div class="modal-box min-w-fit max-w-full w-9/12">
+        <div class="flex justify-between justify-items-center mb-3">
+            <h3 class="font-bold text-lg">Detail Media</h3>
+            <div class="modal-action m-0">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+        <div id="detail-img" class="max-w-full w-full">
+        </div>
+    </div>
+</dialog>
+
+@section Scripts {
+    <script>
+        function like(btnLike, PostId) {
+            const UserId = "@User.FindFirstValue(ClaimTypes.NameIdentifier)";
+            console.log("userId", UserId, "postId", PostId);
+            // Create a JavaScript object with the data
+            var emotionData = {
+                userId: UserId,
+                postId: PostId,
+                emoji: 1
+            };
+            var jsonData = JSON.stringify(emotionData);
+            const urlPost = "/api/ApiPosts/Emotion";
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            };
+            fetch(urlPost, options)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // Parse response body as JSON
+                })
+                .then(emotion => {
+                    if (emotion.emoji == -1) {
+                        document.getElementById("like-"+PostId).classList.remove("stroke-error");
+                    } else {
+                        document.getElementById("like-"+PostId).classList.add("stroke-error");
+                    }
+                })
+                .catch(error => {
+                    // Handle errors
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        }
+
+        function Msg(userOwnerId, postId) {
+            const userInput = document.getElementById("userInput");
+            const userId = userOwnerId;
+            userInput.value = userId;
+            fetch("/GetChats?userId=" + userId)
+                .then(response => response.json())
+                .then(arrUnknown1 => {
+                    const messagesList = document.getElementById("messagesList");
+                    const url = window.location.href.split("/")[2];
+                    const messageInput = document.getElementById("messageInput");
+                    messagesList.innerHTML = '';
+                    arrUnknown1.forEach(item1 => {
+                        const divChat = document.createElement("li");
+                        const divBubble = document.createElement("div");
+                        const userCurId = "@User.FindFirstValue(ClaimTypes.NameIdentifier)";
+
+                        if (item1.userId2 == userCurId) {
+                            divChat.classList.add("chat", "chat-end");
+                        } else {
+                            divChat.classList.add("chat", "chat-start");
+                        }
+                        divBubble.classList.add("chat-bubble");
+                        messagesList.appendChild(divChat);
+                        divChat.appendChild(divBubble);
+
+
+                        divBubble.innerText = item1.message;
+                    })
+                    messageInput.value = "" + url + "/Posts/Details/" + postId;
+                });
+        }
+
+        function Saved(postId, userId = "@User.FindFirstValue(ClaimTypes.NameIdentifier)") {
+            var savedPost = {
+                "postId": postId,
+                "userIdNotOwner": userId
+            };
+            var jsonData = JSON.stringify(savedPost);
+            const url = "/api/ApiPosts/SavedPost";
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            };
+            fetch(url, options)
+                .then(response => {
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    // Get reference to the media container element
+                    const messageNotificationPost = document.getElementById("messageNotificationPost");
+                    const notificationR = document.getElementById("notication-realtime");
+                    // Clear existing media elements
+                    messageNotificationPost.children[1].innerText = "Success";
+                    messageNotificationPost.children[0].innerText = "Saved Post";
+                    notificationR.classList.remove("hidden");
+
+                    setTimeout(() => {
+                        notificationR.classList.add("hidden");
+                    }, 1500);
+                });
+        }
+
+    </script>
+}

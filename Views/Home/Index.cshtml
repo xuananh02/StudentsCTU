@@ -1,0 +1,867 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@using System.Security.Claims;
+
+
+
+
+<div class="flex justify-between w-full">
+    <div class="z-10 absolute bg-base-100 h-screen hidden xl:relative xl:flex flex-col lg:w-3/12 sm:w-5/12 w-4/6 c-bolh-sides ">
+        <a href="SavedPosts" class="btn btn-ghost justify-start w-full mb-3 ">
+            <img width="24" height="24" src="~/source/img/save-instagram.png" alt="save-instagram.png" />
+            Saved
+        </a>
+        <a href="/friends" class="btn btn-ghost justify-start w-full mb-3">
+            <img width="24" height="24" src="~/source/img/friends.png" alt="friend.png" />
+            Friends
+        </a>
+    </div>
+    <main role="main" class="container lg:w-5/12 md:w-6/12 w-full mx-auto">
+        <div class="flex flex-col justify-center justify-items-center w-full bg-base-200 rounded-lg shadow-md mb-4">
+            <div class="flex justify-items-center mx-3 mt-3">
+                <img class="avatar-user w-10 h-10 rounded-full mr-3" src="https://th.bing.com/th/id/OIP.pqzQpx8Wg5fEHznAKKY6ugHaJ4?rs=1&pid=ImgDetMain" alt="Avatar" />
+                <input onclick="my_modal_1.showModal()" type="text" placeholder="Type Post here" class="input input-bordered w-full " />
+            </div>
+            <div class="flex justify-items-center mx-3 my-3 justify-around">
+                <button onclick="my_modal_1.showModal()" class="btn btn-ghost w-32 ">
+                    <img src="~/source/img/video.png" alt="video.png" width="24" height=24 />
+                    <div class="font-semibold">Video</div>
+                </button>
+                <button onclick="my_modal_1.showModal()" class="btn btn-ghost w-32 ">
+                    <img src="~/source/img/image_gallery.png" alt="image_gallery.png" width="24" height=24 />
+                    <div class="font-semibold">Image</div>
+                </button>
+            </div>
+        </div>
+        <div id="post-render" class="mb-3">
+            @*Post Below*@
+            <div class="flex flex-col justify-center justify-items-center w-full bg-base-200 rounded-lg shadow-md mb-4">
+                <div class="flex justify-items-center mx-3 mt-3 mb-1.5">
+                    <img class="w-10 h-10 rounded-full mr-3" src="https://th.bing.com/th/id/OIP.pqzQpx8Wg5fEHznAKKY6ugHaJ4?rs=1&pid=ImgDetMain" alt="Avatar" />
+                    <div class="flex flex-col justify-start justify-items-center">
+                        <div class="font-semibold">Ten Nguoi A</div>
+                        <div class="font-light text-sm">1 Ngay</div>
+                    </div>
+                </div>
+                <hr />
+                <div class="mb-3 mt-1.5 mx-3">
+                    Ngỡ như bản sao =)))))
+                </div>
+                <div class="mx-2 mb-1.5 bg-base-300 rounded-lg">
+                    <div class="flex flex-col mb-3">
+                        <button class="btn h-96 flex-row mb-3">
+                            <img class="object-cover w-full h-96 rounded-lg" src="https://assets.digitalocean.com/articles/alligator/css/object-fit/example-object-fit.jpg" alt="post.png" />
+                        </button>
+                        <button class="btn flex-row" onclick="my_modal_2.showModal()">
+                            <img class="object-cover rounded-lg" src="~/source/img/sign.png" alt="plus.png" />
+                        </button>
+                    </div>
+                </div>
+                <hr />
+                <div class="mt-1.5 mb-1.5 flex justify-around justify-items-center">
+                    12k Like
+                </div>
+                <div class="mt-1.5 mb-1.5 flex justify-around justify-items-center">
+                    <button class="btn btn-circle btn-outline">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-error" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12
+                                20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </button>
+                    <button class="btn">
+                        <img width="24" height="24" alt="messenger.png" src="~/source/img/messenger.png" />
+                        <div class="font-light">Message</div>
+                    </button>
+                    <button class="btn">
+                        <img width="24" height="24" alt="messenger.png" src="~/source/img/send.png" />
+                        <div class="font-light">share</div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-center justify-items-center w-full bg-base-200 rounded-lg shadow-md mb-4">
+                <div class="flex justify-items-center mx-3 mt-3 mb-1.5">
+                    <img class="w-10 h-10 rounded-full mr-3" src="https://th.bing.com/th/id/OIP.pqzQpx8Wg5fEHznAKKY6ugHaJ4?rs=1&pid=ImgDetMain" alt="Avatar" />
+                    <div class="flex flex-col justify-start justify-items-center">
+                        <div class="font-semibold">Ten Nguoi A</div>
+                        <div class="font-light text-sm">1 Ngay</div>
+                    </div>
+                </div>
+                <hr />
+                <div class="mb-3 mt-1.5 mx-3">
+                    Ngỡ như bản sao =)))))
+                </div>
+                <div class="mx-2 mb-1.5 bg-base-300 rounded-lg">
+                    <div class="flex flex-col mb-3">
+                        <video class="object-cover w-full h-96 rounded-lg" controls>
+                            <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <button class="btn flex-row" onclick="my_modal_2.showModal()">
+                            <img class="object-cover rounded-lg" src="~/source/img/sign.png" alt="plus.png" />
+                        </button>
+                    </div>
+                </div>
+                <hr />
+                <div class="mt-1.5 mb-1.5 flex justify-around justify-items-center">
+                    12k Like
+                </div>
+                <div class="mt-1.5 mb-1.5 flex justify-around justify-items-center">
+                    <button class="btn btn-circle btn-outline">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-error" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12
+                                20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        </svg>
+                    </button>
+                    <button class="btn">
+                        <img width="24" height="24" alt="messenger.png" src="~/source/img/messenger.png" />
+                        <div class="font-light">Message</div>
+                    </button>
+                    <button class="btn">
+                        <img width="24" height="24" alt="messenger.png" src="~/source/img/send.png" />
+                        <div class="font-light">share</div>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flex justify-center">
+            <button id="continue-load-post" class="btn mb-3">Load continue posts</button>
+        </div>
+        
+    </main>
+    <div class="z-10 absolute bg-base-100 h-screen right-0 hidden lg:relative lg:flex flex-col lg:w-3/12 sm:w-5/12 w-4/6 c-bolh-sides">
+        <div class="flex flex-col justify-between items-center w-full mb-3">
+            <div class="font-light mb-3">
+                Contact
+            </div>
+                <form id="search-friend-form">
+                    <label class="input input-bordered input-xs flex items-center">
+                        <input id="search-friend-text" type="text" class="grow" placeholder="Search" />
+                        <input class="hidden" type="submit" value="search" />
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" /></svg>
+                    </label>
+                </form>
+        </div>
+        <div id="friend-container" class="flex flex-col mb-3">
+            <button class="btn btn-ghost w-full mb-3 justify-start">
+                <div class="avatar indicator">
+                    <span class="indicator-item badge badge-secondary"></span>
+                    <div class="w-10 h-10 rounded-lg">
+                        <img alt="Tailwind CSS examples" src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                    </div>
+                </div>
+                <div class="ml-4">Ten Nguoi A</div>
+            </button>
+        </div>
+        <button id="continue-friends" class="btn btn-ghost w-full mb-3 justify-start">
+            See more
+        </button>
+    </div>
+    
+</div>
+
+
+
+
+
+<dialog id="my_modal_3" class="modal w-ful">
+    <div class="modal-box min-h-96" >
+        <div class="flex justify-between justify-items-center mb-3">
+            <h3 class="font-bold text-lg">Chat</h3>
+
+            <a id="detail-user" href="" class="link">Detail User</a>
+
+            <div class="modal-action m-0">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+        <div id="detail-chat" class="flex flex-col">
+
+            <label  class="input input-bordered flex items-center gap-2 mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 opacity-70"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" /></svg>
+                <input id="userInput" type="text" class="grow" placeholder="Username" disabled="true"/>
+            </label>
+
+            <ul id="messagesList" class="mb-4 h-96" style="overflow: auto">
+                <div class="chat chat-start">
+                    <div class="chat-bubble">It's over Anakin, <br />I have the high ground.</div>
+                </div>
+                <div class="chat chat-end">
+                    <div class="chat-bubble">You underestimate my power!</div>
+                </div>
+            </ul>
+            <form id="send-chat-form">
+                <input id="messageInput" type="text" placeholder="Type here" class="input input-ghost w-full mb-4" />
+                <input class="btn mb-4" type="submit" id="sendButton" value="Send Message" />
+            </form>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="my_modal_2" class="modal">
+    <div class="modal-box min-w-fit max-w-full w-9/12">
+        <div class="flex justify-between justify-items-center mb-3">
+            <a id="detail-link-post" href="#" class="link font-bold text-lg">Detail Media</a>
+            <div class="modal-action m-0">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <button class="btn">Close</button>
+                </form>
+            </div>
+        </div>
+        <div id="detail-img" class="max-w-full w-full">
+            <img class="object-cover w-full max-w-fit max-h-fit rounded-lg mb-3 mx-auto" src="https://assets.digitalocean.com/articles/alligator/css/object-fit/example-object-fit.jpg" alt="post.png" />
+            <img class="object-cover w-full max-w-fit max-h-fit rounded-lg mb-3 mx-auto" src="https://assets.digitalocean.com/articles/alligator/css/object-fit/example-object-fit.jpg" alt="post.png" />
+            <img class="object-cover w-full max-w-fit max-h-fit rounded-lg mb-3 mx-auto" src="https://assets.digitalocean.com/articles/alligator/css/object-fit/example-object-fit.jpg" alt="post.png" />
+            <video class="object-cover w-full h-96 rounded-lg mb-3" controls>
+                <source src="https://www.w3schools.com/tags/movie.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="my_modal_1" class="modal">
+    <div class="modal-box">
+        <h3 class="font-bold text-lg mb-3">New Post</h3>
+        <form id="postForm" class="flex flex-col justify-center justify-items-center" >
+            <textarea id="description" name="description" placeholder="Bio" class="textarea textarea-bordered textarea-lg w-full max-w-xs mx-auto mb-3"></textarea>
+            @* <input type="file" class="file-input file-input-bordered w-full max-w-xs mb-3" /> *@
+            <div id="imageContainer" class="flex flex-col justify-around justify-items-center">
+            </div>
+            <input type="file" id="fileInput" multiple class="file-input file-input-bordered w-full max-w-xs mb-3" />
+            <input type="submit" class="btn" value="Submit"/>
+        </form>
+        <div class="modal-action">
+            <form method="dialog">
+                <!-- if there is a button in form, it will close the modal -->
+                <button id="btn-close-form" class="btn">Close</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+@section Scripts {
+    <script src="~/js/signalr/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+
+    <script>
+        var pageNumberFriend = 1;
+        const continueFriends = document.getElementById("continue-friends");
+        const friendSearchForm = document.getElementById("search-friend-form");
+        const containerFriendChat = document.getElementById("friend-container");
+
+        friendSearchForm.addEventListener("submit", (event) => {
+            event.preventDefault(); // Prevent the default form submission
+            const searchFriendText = document.getElementById("search-friend-text").value;
+            containerFriendChat.innerText = "";
+            pageNumberFriend = 1;
+            getFriends(searchFriendText);
+            
+        });
+
+        containerFriendChat.innerHTML = "";
+        getFriends();
+        continueFriends.addEventListener("click", (event) => {
+            getFriends();
+        });
+
+        function getFriends(searchFriendText = "") {
+            fetch("/GetFriends?searchString=" + searchFriendText + "&pageNumber=" + pageNumberFriend)
+                .then(response => response.json())
+                .then(arrUnknown => {
+                    if (arrUnknown.length > 0) {
+                        arrUnknown.forEach(item => {
+                            const btnUser = document.createElement("button");
+                            const innerHtml = `
+                                        <div class="avatar indicator">
+                                            <span class="indicator-item badge badge-secondary"></span>
+                                            <div class="w-10 h-10 rounded-lg">
+                                                <img alt="Tailwind CSS examples" src=` + item.pictureUrl + ` />
+                                            </div>
+                                        </div>
+                                        <div class="ml-4">`+ item.firstName + " " + item.lastName + `</div>`;
+                            const detailUser = document.getElementById("detail-user");
+
+                            detailUser.setAttribute("href", "/Profiles/Details/" + item.id);
+                            detailUser.innerText = item.firstName + " " + item.lastName;
+
+                            btnUser.classList.add("btn", "btn-ghost", "w-full", "mb-3", "justify-start");
+                            btnUser.innerHTML = innerHtml;
+                            btnUser.setAttribute("onclick", "my_modal_3.showModal()");
+                            btnUser.addEventListener("click", (event) => {
+                                const userInput = document.getElementById("userInput");
+                                userInput.value = item.id;
+
+                                fetch("/GetChats?userId=" + item.id)
+                                    .then(response => response.json())
+                                    .then(arrUnknown1 => {
+                                        const messagesList = document.getElementById("messagesList");
+
+                                        arrUnknown1.forEach(item1 => {
+                                            var divChat = document.createElement("li");
+                                            var divBubble = document.createElement("div");
+
+                                            if (item1.userId2 == item.id) {
+                                                divChat.classList.add("chat", "chat-end");
+                                            } else {
+                                                divChat.classList.add("chat", "chat-start");
+                                            }
+                                            divBubble.classList.add("chat-bubble");
+                                            messagesList.appendChild(divChat);
+                                            divChat.appendChild(divBubble);
+
+                                            divBubble.innerText = item1.message;
+                                        })
+
+                                    });
+
+                            })
+
+                            containerFriendChat.appendChild(btnUser);
+                        });
+                        pageNumberFriend += 1;
+                    }
+                });
+        }
+    </script>
+
+    <script>
+
+        var pageNumber = 1;
+
+        function addNewAvatar(srcImg = "https://th.bing.com/th/id/OIP.pqzQpx8Wg5fEHznAKKY6ugHaJ4?rs=1&pid=ImgDetMain", userName = "Ten Nguoi Dung A", date = "12/12/2024") {
+            // div_1 include img_1 and div_4
+            const div_1 = document.createElement('div');
+            // div_2 is user name, div_3 is date create
+            const div_2 = document.createElement('div');
+            const div_3 = document.createElement('div');
+            // div_4 include div_2 and div_3
+            const div_4 = document.createElement('div');
+            // img avatar
+            const img_1 = document.createElement('img');
+            
+            div_1.classList.add("flex", "justify-items-center", "mx-3", "mt-3", "mb-1.5");
+            img_1.classList.add("w-10", "h-10", "rounded-full", "mr-3");
+            div_2.classList.add("font-semibold");
+            div_3.classList.add("font-light", "text-sm");
+            div_4.classList.add("flex", "flex-col", "justify-start", "justify-items-center");
+
+            img_1.src = srcImg;
+            img_1.alt = "avatar";
+            div_2.innerText = userName;
+            div_3.innerText = date;
+
+            div_4.appendChild(div_2);
+            div_4.appendChild(div_3);
+            div_1.appendChild(img_1);
+            div_1.appendChild(div_4);
+
+            return div_1;
+        }
+
+        function addNewImg(srcImg) {
+
+            const btn_1 = document.createElement('button');
+            const img_1 = document.createElement('img');
+
+            btn_1.classList.add("btn", "h-96", "flex-row", "mb-3");
+            img_1.classList.add("object-cover", "w-full", "h-96", "rounded-lg");
+
+            img_1.src = srcImg;
+            img_1.alt = "img.png";
+
+            btn_1.appendChild(img_1);
+
+            return btn_1;
+        }
+
+        function addNewVideo(srcVideo = "https://www.w3schools.com/tags/movie.mp4") {
+            const video_1 = document.createElement('video');
+            const source_1 = document.createElement('source');
+
+            video_1.classList.add("object-cover", "w-full", "h-96", "rounded-lg");
+            video_1.setAttribute("controls", "");
+            source_1.src = srcVideo;
+            source_1.type = "video/mp4";
+
+            video_1.appendChild(source_1);
+
+            return video_1;
+        }
+
+        function addImgPlus(postId, photos, videos) {
+            const btn_1 = document.createElement('button');
+            const img_1 = document.createElement('img');
+
+            btn_1.classList.add("btn", "flex-row");
+            img_1.classList.add("object-cover", "rounded-lg");
+
+            btn_1.setAttribute("onclick", "my_modal_2.showModal()");
+            btn_1.addEventListener("click", (event) => {
+                console.log(postId);
+                const imgDetailContainer = document.getElementById("detail-img");
+                const detailLinkPost = document.getElementById("detail-link-post");
+                detailLinkPost.href = "/Posts/Details/" + postId;
+                imgDetailContainer.innerHTML = "";
+                
+                photos.forEach((item) => {
+                    const img = document.createElement("img");
+                    img.classList.add("object-cover", "w-full", "max-w-fit", "max-h-fit", "rounded-lg", "mb-3", "mx-auto");
+                    img.src = item.url;
+                    imgDetailContainer.appendChild(img);
+                });
+
+                videos.forEach((item) => {
+                    const video = document.createElement("video");
+                    const source = document.createElement("source");
+                    video.classList.add("object-cover", "w-full", "max-w-fit", "max-h-fit", "rounded-lg", "mb-3", "mx-auto");
+                    video.setAttribute("controls", "");
+                    source.setAttribute("src", item.url);
+                    source.setAttribute("type", "video/mp4");
+                    video.appendChild(source);
+                    imgDetailContainer.appendChild(video);
+                });
+
+            });
+            img_1.src = "/source/img/sign.png";
+            img_1.alt = "plus.png";
+
+            btn_1.appendChild(img_1);
+
+            return btn_1;
+        }
+
+        function addToolPost(postId, userOwnerId, isLike) {
+
+            const div = document.createElement('div');
+            div.classList.add("mt-1.5", "mb-1.5", "flex", "justify-around", "justify-items-center");
+
+
+            const btnLike = document.createElement('button');
+            btnLike.classList.add("btn", "btn-circle", "btn-outline");
+            if (isLike) {
+                btnLike.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 stroke-error" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12
+                                            20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>`;
+            } else {
+                btnLike.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 error" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12
+                                                    20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>`;
+            }
+            btnLike.addEventListener("click", () => {
+                const UserId = "@User.FindFirstValue(ClaimTypes.NameIdentifier)";
+                const PostId = postId;
+                console.log("userId", UserId, "postId", PostId);
+                // Create a JavaScript object with the data
+                var emotionData = {
+                    userId: UserId,
+                    postId: PostId,
+                    emoji: 1
+                };
+                var jsonData = JSON.stringify(emotionData);
+                const urlPost = "/api/ApiPosts/Emotion";
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: jsonData
+                };
+                fetch(urlPost, options)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json(); // Parse response body as JSON
+                    })
+                    .then(emotion => {
+                        if (emotion.emoji == -1) {
+                            btnLike.firstChild.classList.remove("stroke-error");
+                        } else {
+                            btnLike.firstChild.classList.add("stroke-error");
+                        }
+                    })
+                    .catch(error => {
+                        // Handle errors
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            });
+            
+
+            const btnMsg = document.createElement('button');
+            const userCurId = "@User.FindFirstValue(ClaimTypes.NameIdentifier)";
+            btnMsg.classList.add("btn");
+            btnMsg.setAttribute("onclick", "my_modal_3.showModal()");
+            btnMsg.addEventListener("click", () => {
+                const userInput = document.getElementById("userInput");
+                const userId = userOwnerId;
+                userInput.value = userId;
+                fetch("/GetChats?userId=" + userId)
+                    .then(response => response.json())
+                    .then(arrUnknown1 => {
+                        const messagesList = document.getElementById("messagesList");
+                        const url = window.location.href.split("/")[2];
+                        const messageInput = document.getElementById("messageInput");
+                        messagesList.innerHTML = '';
+                        arrUnknown1.forEach(item1 => {
+                            const divChat = document.createElement("li");
+                            const divBubble = document.createElement("div");
+                            
+
+                            if (item1.userId2 == userCurId) {
+                                divChat.classList.add("chat", "chat-end");
+                            } else {
+                                divChat.classList.add("chat", "chat-start");
+                            }
+                            divBubble.classList.add("chat-bubble");
+                            messagesList.appendChild(divChat);
+                            divChat.appendChild(divBubble);
+
+
+                            divBubble.innerText = item1.message;
+                        })
+                        messageInput.value = "" + url + "/Posts/Details/" + postId;
+                    });
+            });
+            btnMsg.innerHTML = `<img width="24" height="24" alt="messenger.png" src="/source/img/messenger.png" />
+                                <div class="font-light">Message</div>`;
+
+            const btnSaved = document.createElement('button');
+            const userId = "@User.FindFirstValue(ClaimTypes.NameIdentifier)";
+            const url = "/api/ApiPosts/SavedPost";
+            btnSaved.classList.add("btn");
+            btnSaved.addEventListener("click", () => {
+                console.log("Saved");
+                var savedPost = {
+                    "postId": postId,
+                    "userIdNotOwner": userId
+                };
+                var jsonData = JSON.stringify(savedPost);
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: jsonData
+                };
+                fetch(url, options)
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                        // Get reference to the media container element
+                        const mediaContainer = document.getElementById('imageContainer');
+                        const messageNotificationPost = document.getElementById("messageNotificationPost");
+
+                        // Clear existing media elements
+                        mediaContainer.innerHTML = '';
+                        document.getElementById("btn-close-form").click();
+
+                        messageNotificationPost.children[1].innerText = "Success";
+                        messageNotificationPost.children[0].innerText = "Saved Post";
+                        notificationR.classList.remove("hidden");
+
+                        setTimeout(() => {
+                            notificationR.classList.add("hidden");
+                        }, 1500);
+                    });
+                
+            });
+            btnSaved.innerHTML = `<img width="24" height="24" alt="messenger.png" src="/source/img/send.png" />
+                                <div class="font-light">Save</div>`;
+
+
+            div.append(btnLike);
+            div.append(btnMsg);
+            div.append(btnSaved);
+           
+            return div;
+        }
+
+        function addNewPost(description = "Cứ Ngỡ Là Mơ", srcImg = "https://th.bing.com/th/id/OIP.pqzQpx8Wg5fEHznAKKY6ugHaJ4?rs=1&pid=ImgDetMain", userName = "Ten Nguoi Dung A", date = "12/12/2024",
+                    srcMedia = "https://www.w3schools.com/tags/movie.mp4", type="video", postId = "-1", photos, videos, userOwnerId = "-1", isLike = false, numOflike = 0) {
+            // div container
+            const div = document.createElement('div');
+            // div_1 include img, video
+            const div_1 = document.createElement('div');
+            // div_2 include div_1
+            const div_2 = document.createElement('div');
+            // div_3 is description text
+            const div_3 = document.createElement('div');
+            // div_4 is numOfLike
+            const div_4 = document.createElement("div");
+            
+
+            div_1.classList.add("flex", "flex-col", "mb-3");
+            div_2.classList.add("mx-2", "mb-1.5", "bg-base-300", "rounded-lg");
+            div_3.classList.add("mb-3", "mt-1.5", "mx-3");
+            div_4.classList.add("mt-1.5", "mb-1.5", "flex", "justify-around", "justify-items-center");
+            div.classList.add("flex", "flex-col", "justify-center", "justify-items-center", "w-full", "bg-base-200", "rounded-lg", "shadow-md", "mb-4");
+
+            div_3.innerText = description;
+            div_4.innerText = numOflike + " Like";
+
+            if (type == "video") {
+                div_1.appendChild(addNewVideo(srcMedia));
+            } else if (type == "photo") {
+                div_1.appendChild(addNewImg(srcMedia));
+            }
+            div_1.appendChild(addImgPlus(postId, photos, videos));
+            div_2.appendChild(div_1);
+            div.appendChild(addNewAvatar(srcImg, userName, date));
+            div.appendChild(document.createElement("hr"));
+            div.appendChild(div_3);
+            div.appendChild(div_2);
+            div.appendChild(div_4);
+            div.appendChild(addToolPost(postId, userOwnerId, isLike));
+
+            return div;
+        }
+
+        function imgDetail() {
+            // <img class="object-cover w-full h-96 rounded-lg mb-3" src = "https://assets.digitalocean.com/articles/alligator/css/object-fit/example-object-fit.jpg" alt = "post.png" />
+            const img = document.createElement("img");
+            img.classList.add("object-cover", "w-full", "h-96", "rounded-lg", "mb-3");
+            img.src = "https://assets.digitalocean.com/articles/alligator/css/object-fit/example-object-fit.jpg";
+            return img;
+        }
+
+
+        
+        document.getElementById("post-render").appendChild(addNewPost());
+        document.getElementById("post-render").appendChild(addNewPost(description = "Cứ Ngỡ Là Mơ", srcImg = "https://th.bing.com/th/id/OIP.pqzQpx8Wg5fEHznAKKY6ugHaJ4?rs=1&pid=ImgDetMain", userName = "Ten Nguoi Dung A", date = "12/12/2024",
+            srcMedia = "https://www.w3schools.com/tags/movie.mp4", type = "video", postId = "121"));
+
+
+        const postContainerRender = document.getElementById("post-render")
+        const btnContinueLoad = document.getElementById("continue-load-post");
+
+        btnContinueLoad.addEventListener("click", () => {
+            renderPost()
+        });
+        postContainerRender.innerHTML = '';
+        renderPost();
+
+        function renderPost() {
+            fetch('/api/ApiPosts?pageNumber=' + pageNumber)
+                .then(response => response.json())
+                .then(posts => {
+                    emptyArray = posts.length == 0;
+                    posts.forEach(item => {
+                        if (item.photos.length > 0) {
+                            postContainerRender.appendChild(addNewPost(description = item.description, srcImg = item.profileOwner.pictureUrl, userName = item.profileOwner.firstName + " " + item.profileOwner.lastName, date = item.updatedDate,
+                                srcMedia = "/" + item.photos[0].url, type = "photo", postId = item.id, item.photos, item.videos, item.profileOwner.id, item.isLike, item.numOfLike));
+                        } else if (item.videos.length > 0) {
+                            postContainerRender.appendChild(addNewPost(description = item.description, srcImg = item.profileOwner.pictureUrl, userName = item.profileOwner.firstName + " " + item.profileOwner.lastName, date = item.updatedDate,
+                                srcMedia = "/" + item.videos[0].url, type = "video", postId = item.id, item.photos, item.videos, item.profileOwner.id, item.isLike, item.numOfLike));
+                        } else {
+                            postContainerRender.appendChild(addNewPost(description = item.description, srcImg = item.profileOwner.pictureUrl, userName = item.profileOwner.firstName + " " + item.profileOwner.lastName, date = item.updatedDate,
+                                srcMedia = "", type = "", postId = item.id, item.photos, item.videos, item.profileOwner.id, item.isLike, item.numOfLike));
+                        }
+                    });
+
+                    pageNumber += 1;
+                    if (emptyArray) {
+                        pageNumber -= 1;
+                    }
+                });
+        }
+        
+
+
+        // Get reference to the file input element
+        const fileInput = document.getElementById('fileInput');
+        const notificationR = document.getElementById("notication-realtime");
+        
+
+        document.getElementById("postForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the value from the textarea
+            var description = document.getElementById("description").value;
+
+            // Create a JavaScript object with the data
+            var postData = {
+                description: description
+            };
+
+            var jsonData = JSON.stringify(postData);
+
+            const urlPost = "/api/ApiPosts";
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonData
+            };
+
+
+            fetch(urlPost, options)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // Parse response body as JSON
+                })
+                .then(data => {
+                    // Do something with the response data
+                    console.log(data);
+
+                    var idPost = data.id;
+
+                    console.log("PostId Here", idPost);
+
+                    var event = new Event('click');
+                    var description = document.getElementById("description").value = "";
+                    document.getElementById("btn-close-form").dispatchEvent(event);
+
+                    const formDataVideo = new FormData();
+                    const formDataImage = new FormData();
+                    const files = fileInput.files;
+                    var fileLengthVideo = 0;
+                    var fileLengthImage = 0;
+
+                    formDataVideo.append('id', idPost);
+                    formDataImage.append('id', idPost);
+
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        if (file.type.startsWith('image/')) {
+                            formDataImage.append('files', file);
+                            fileLengthImage += 1;
+                        } else {
+                            formDataVideo.append('files', file);
+                            fileLengthVideo += 1;
+                        }
+                    }
+
+                    if (fileLengthVideo > 0) {
+                        fetch('/api/ApiPosts/Videos', {
+                            method: 'POST',
+                            body: formDataVideo
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error("Failed to upload File");
+                                }
+                                return response.text();
+                            })
+                            .then(result => {
+                                console.log('File uploaded successfully:', result);
+                            })
+                            .catch(error => {
+                                console.log('Error uploading file:', error.message);
+                            });
+                    }
+
+                    if (fileLengthImage > 0) {
+
+                        fetch('/api/ApiPosts/Images', {
+                            method: 'POST',
+                            body: formDataImage
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error("Failed to upload File");
+                                }
+                                return response.text();
+                            })
+                            .then(result => {
+                                console.log('File uploaded successfully:', result);
+                            })
+                            .catch(error => {
+                                console.log('Error uploading file:', error.message);
+                            });
+                    }
+
+                    // Get reference to the media container element
+                    const mediaContainer = document.getElementById('imageContainer');
+                    const messageNotificationPost = document.getElementById("messageNotificationPost");
+
+                    // Clear existing media elements
+                    mediaContainer.innerHTML = '';
+                    document.getElementById("btn-close-form").click();
+
+                    messageNotificationPost.children[1].innerText = "Success";
+                    messageNotificationPost.children[0].innerText = "Post Uploaded";
+                    notificationR.classList.remove("hidden");
+
+                    setTimeout(() => {
+                        notificationR.classList.add("hidden");
+                    }, 1500);
+
+                })
+                .catch(error => {
+                    // Handle errors
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+
+        });
+        
+
+
+        // Add event listener for when files are selected
+        fileInput.addEventListener('change', function (event) {
+
+
+            // Get the selected files
+            const files = event.target.files;
+
+            // Get reference to the media container element
+            const mediaContainer = document.getElementById('imageContainer');
+
+            // Clear existing media elements
+            mediaContainer.innerHTML = '';
+
+            var row = document.createElement('div');
+            var numRow = 0;
+            row.classList.add("flex", "justify-around", "justify-items-center", "mb-3");
+
+            // Loop through selected files
+            for (let i = 0; i < files.length; i++) {
+                if (numRow == 2) {
+                    numRow %= 2;
+                    mediaContainer.appendChild(row);
+                    row = document.createElement('div');
+                    row.classList.add("flex", "justify-around", "justify-items-center", "mb-3");
+                }
+
+                const file = files[i];
+
+                // Create a new media element (image or video)
+                const mediaElement = document.createElement(file.type.startsWith('image/') ? 'img' : 'video');
+                mediaElement.classList.add("w-40", "h-40", "rounded-lg", "shadow-lg");
+
+                // Set the file as the source of the media element
+                const reader = new FileReader();
+                reader.onload = function () {
+                    mediaElement.src = reader.result;
+                };
+                reader.readAsDataURL(file);
+
+                // Set attributes for video elements
+                if (file.type.startsWith('video/')) {
+                    mediaElement.setAttribute('controls', 'true');
+                }
+
+                // Append the media element to the media container
+                row.appendChild(mediaElement);
+
+                numRow += 1;
+            }
+
+            mediaContainer.appendChild(row);
+        });
+
+    </script>
+}

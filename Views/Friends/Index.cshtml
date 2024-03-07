@@ -1,0 +1,149 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Friends";
+}
+
+@model SocialMediaWisLam.Controllers.FriendsController.ViewModel
+
+
+
+
+<main class="container w-11/12 md:w-6/12 mx-auto">
+
+    
+
+    <div class="mb-8 mx-auto">
+        <label class="input input-bordered flex items-center gap-2">
+            <form class ="grow" asp-controller="Friends" asp-action="Index" method="get">
+                <input type="text" name="searchString" placeholder="Search" />
+                <input type="submit" value="search" class="hidden" />
+            </form>
+            <kbd class="kbd kbd-sm">⌘</kbd>
+            <kbd class="kbd kbd-sm">K</kbd>
+        </label>
+    </div>
+
+    @foreach (var friend in Model.Friends)
+    {
+        var curProfile = (friend.Profile1.Id == Model.UserId) ? friend.Profile2 : friend.Profile1;
+
+        <div class="flex justify-between my-3 mb-3 rounded-lg shadow-md">
+            <div class="flex justify-items-center p-3">
+                <a class="w-12 h-12 rounded-full">
+                    <img class="w-12 h-12 rounded-full" src="@curProfile.PictureUrl" alt="avatar" />
+                </a>
+                <div class="flex w-24 md:w-36 flex-col ml-3">
+                    <div class="font-semibold">@curProfile.FirstName @curProfile.LastName</div>
+                    <div class="font-light">Can Tho</div>
+                </div>
+            </div>
+            <div class="flex flex-col justify-center pr-3">
+                @if (friend.AreFriend == 1)
+                {
+                    <form asp-controller="Friends" asp-action="AddFriend" method="post">
+                        <input type="hidden" value="@curProfile.Id" name="UserId2" />
+                        <input type="hidden" value="@Model.UserId" name="UserId1" />
+                        <input type="hidden" value="0" name="AreFriend" />
+                        <input class="btn" type="submit" value="Unfriend" />
+                    </form>
+                }
+                else if (friend.AreFriend == 2 && friend.Profile1.Id == Model.UserId)
+                {
+                    <form asp-controller="Friends" asp-action="AddFriend" method="post">
+                        <input type="hidden" value="@curProfile.Id" name="UserId2" />
+                        <input type="hidden" value="@Model.UserId" name="UserId1" />
+                        <input type="hidden" value="0" name="AreFriend" />
+                        <input class="btn" type="submit" value="Cancel" />
+                    </form>
+
+                }
+                else
+                {
+                    <form asp-controller="Friends" asp-action="AddFriend" method="post">
+                        <input type="hidden" value="@curProfile.Id" name="UserId2" />
+                        <input type="hidden" value="@Model.UserId" name="UserId1" />
+                        <input type="hidden" value="1" name="AreFriend" />
+                        <input class="btn" type="submit" value="Confirm" />
+                    </form>
+                    <form asp-controller="Friends" asp-action="AddFriend" method="post">
+                        <input type="hidden" value="@curProfile.Id" name="UserId2" />
+                        <input type="hidden" value="@Model.UserId" name="UserId1" />
+                        <input type="hidden" value="0" name="AreFriend" />
+                        <input class="btn" type="submit" value="Delete" />
+                    </form>
+                }
+            </div>
+        </div>
+    }
+
+</main>
+
+
+@* <h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PictureUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoverPictureUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AboutMe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Birthday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PictureUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CoverPictureUrl)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AboutMe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> *@

@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2">
+	
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<UpToDateCheckBuilt Include="wwwroot/css/site.css" Set="Css" />
+		<UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Migrations\" />
+	  <Folder Include="wwwroot\lib\js\" />
+	  <Folder Include="wwwroot\source\img\" />
+	  <Folder Include="wwwroot\source\images\" />
+	  <Folder Include="wwwroot\source\videos\" />
+	</ItemGroup>
+
+	<Target Name="Tailwind" BeforeTargets="Build">
+		<Exec Command="npm run css:build" />
+	</Target>
+
+</Project>

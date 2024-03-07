@@ -1,0 +1,203 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<SocialMediaWisLam.Models.Profile> SignInManager
+@inject UserManager<SocialMediaWisLam.Models.Profile> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - StudentCTU</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <header>
+        <div class="navbar bg-base-100 mb-3">
+            <div class="navbar-start">
+                <div class="flex">
+                    <a href="/" class="btn btn-ghost text-lg hidden md:flex">StudentCTU</a>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <div class="form-control mr-2 hidden md:block">
+                            <form asp-controller="Search" asp-action="Index" method="get">
+                                <input type="text" name="searchString" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
+                                <input type="submit" value="search" class="hidden" />
+                            </form>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="navbar-center">
+                <button id="btnSearchMoblie" class="btn btn-ghost flex md:hidden">
+                    <img src="~/source/img/search.png" alt="search.png" width="24" height="24" />
+                </button>
+                <button id="btnLeftSide" class="btn btn-ghost text-xl flex xl:hidden">
+                    <img src="~/source/img/menu.png" alt="menu.png" width="24" height="24" />
+                </button>
+                <a href="/" class="btn btn-ghost text-xl">
+                    <img width="24" height="24" alt="home.png" src="~/source/img/home.png" />
+                </a>
+                <button id="btnRightSide" class="btn btn-ghost text-xl flex lg:hidden">
+                    <img src="~/source/img/messenger.png" alt="messenger.png" width="24" height="24" />
+                </button>
+            </div>
+            <div class="navbar-end">
+                
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+
+        <div id="searchMoblie" class="form-control hidden my-3 mx-2">
+            <form asp-controller="Search" asp-action="Index" method="get">
+                <input type="text" name="searchString" placeholder="Search" class="input input-bordered w-full" />
+                <input type="submit" value="search" class="hidden" />
+            </form>
+        </div>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <div id="notication-realtime" role="alert" class="alert shadow-lg absolute left-4 bottom-4 z-30 min-w-48 max-w-full w-80 hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div id="messageNotificationPost">
+            <h3 class="font-bold">New message!</h3>
+            <div class="text-xs">You have 1 unread message</div>
+        </div>
+        <button class="btn btn-sm">
+            <img src="~/source/img/cancel.png" alt="Alternate Text" />
+        </button>
+    </div>
+
+    <script>
+        
+        
+        /**
+         * 
+         *<li class="flex flex-col items-center border rounded-lg">
+         *  <div class="font-semibold">new Post From Abc</div>
+         *  <button class="btn btn-circle btn-outline w-10 h-10">
+         *      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+         *  </button>
+         *</li>
+         * 
+         */
+
+        fetch("/GetNotificationPost")
+            .then((response) => response.json())
+            .then(arr => {
+                document.getElementById("notification-post").innerHTML = "";
+                arr.forEach(item => {
+                    const li = document.createElement("li");
+                    const div = document.createElement("div");
+                    const button = document.createElement("button");
+                    const svg = `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>`;
+                    
+                    li.classList.add("flex", "flex-col", "items-center", "border", "rounded-lg");
+                    div.classList.add("font-semibold");
+                    button.classList.add("btn", "btn-circle", "btn-outline", "w-10", "h-10");
+                    button.innerHTML = svg;
+                    div.innerText = item.description;
+
+                    button.addEventListener("click", () => {
+                        const url = "DeleteNotificationPost/" + item.userId + "-" + item.postId;
+
+                        const options = {
+                            method: 'DELETE', // Specify the HTTP method as DELETE
+                        };
+
+                        // Perform the fetch request
+                        fetch(url, options)
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log('Deleted successfully', data);
+                                li.remove();
+                            })
+                            .catch(error => {
+                                console.error('There was a problem with your fetch operation:', error);
+                            });
+                    });
+
+                    li.append(div, button);
+                    document.getElementById("notification-post").append(li);
+                });
+            });
+    </script>
+
+    <script>
+        const avatar = document.getElementsByClassName("avatar-user");
+        const btnSearchMoblie = document.getElementById("btnSearchMoblie");
+        const searchMoblie = document.getElementById("searchMoblie");
+        const cBothSide = document.getElementsByClassName("c-bolh-sides");
+        const btnMenu = document.getElementById("btnLeftSide");
+        const btnFriends = document.getElementById("btnRightSide");
+        var toggleLeft = 0;
+        var toggleRight = 0;
+        var toggleSearchM = 0;
+
+        if (window.location.href.split("/")[3] != "") {
+            btnMenu.classList.add("hidden");
+            btnFriends.classList.add("hidden");
+        };
+
+        btnSearchMoblie.addEventListener("click", () => {
+            if (toggleSearchM == 0) {
+                searchMoblie.classList.remove("hidden");
+                toggleSearchM = 1;
+            } else {
+                searchMoblie.classList.add("hidden");
+                toggleSearchM = 0;
+            }
+        });
+
+        btnMenu.addEventListener("click", () => {
+            if (toggleLeft == 0) {
+                cBothSide[0].classList.remove("hidden");
+                toggleLeft = 1;
+            } else {
+                cBothSide[0].classList.add("hidden");
+                toggleLeft = 0;
+            }
+            console.log("left");
+        });
+
+        btnFriends.addEventListener("click", () => {
+            if (toggleRight == 0) {
+                cBothSide[1].classList.remove("hidden")
+                toggleRight = 1;
+            } else {
+                cBothSide[1].classList.add("hidden")
+                toggleRight = 0;
+            }
+            console.log("right");
+        });
+
+
+        fetch("/api/ApiProfiles")
+            .then((response) => response.json())
+            .then(profile => {
+                for (let item of avatar) {
+                    item.src = profile.pictureUrl;
+                }
+            });
+
+
+    </script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
